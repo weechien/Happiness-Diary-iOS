@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>259457505917-26amc1sfg0qr9dkfocephavqhihk7j55.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.259457505917-26amc1sfg0qr9dkfocephavqhihk7j55</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAlcbF-7B2GKAeEj8q9K8GiVHhca3OJlGA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>259457505917</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.goh.weechien.HappinessDiary</string>
+	<key>PROJECT_ID</key>
+	<string>diary-of-happiness</string>
+	<key>STORAGE_BUCKET</key>
+	<string>diary-of-happiness.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:259457505917:ios:7f76edc82a1d40e9</string>
+	<key>DATABASE_URL</key>
+	<string>https://diary-of-happiness.firebaseio.com</string>
+</dict>
+</plist>
