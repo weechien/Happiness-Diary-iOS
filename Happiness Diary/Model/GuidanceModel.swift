@@ -1,6 +1,7 @@
 import UIKit
 
 class GuidanceModel: NSObject {
+    var backgroundColor: UIColor?
     var image: String?
     var date: String?
     var content: String?

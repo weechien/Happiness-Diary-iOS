@@ -10,7 +10,6 @@ extension UIView {
             view.translatesAutoresizingMaskIntoConstraints = false
             viewsDictionary[key] = view
         }
-        
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: metric, views: viewsDictionary))
     }
     
@@ -22,15 +21,14 @@ extension UIView {
             let key = "m\(index)"
             metricDictionary[key] = float
         }
-        
         return metricDictionary
     }
 }
 
 extension UIColor {
     // Shortcut method to list the RGB values
-    static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
-        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
+    static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat = 1) -> UIColor {
+        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: alpha)
     }
 }
 
@@ -121,6 +119,7 @@ extension UINavigationController {
     
     func showToast(message : String) {
         let toastView = UITextView()
+        toastView.textAlignment = .center
         toastView.textContainer.lineFragmentPadding = 10
         toastView.isUserInteractionEnabled = false
         toastView.font = UIFont.systemFont(ofSize: 14)
@@ -131,11 +130,24 @@ extension UINavigationController {
         toastView.layer.cornerRadius = 10;
         toastView.clipsToBounds = true
         
-        let width = self.view.frame.size.width - 50
-        let extraWidthToRemove = toastView.textContainer.lineFragmentPadding * 2
+        let size = self.view.frame.size
+        
+        let extraWidthToAdd: CGFloat = 50
         let extraHeightToAdd = toastView.textContainerInset.top + toastView.textContainerInset.bottom
-        let height = message.height(withConstrainedWidth: width - extraWidthToRemove, font: toastView.font!) + extraHeightToAdd
-        toastView.frame = CGRect(x: self.view.frame.size.width / 2 - width / 2, y: self.view.frame.size.height - 100, width: width, height: height)
+        let extraWidthToRemove = toastView.textContainer.lineFragmentPadding * 2
+        
+        let calculatedTextWidth = message.width(withConstrainedHeight: 1, font: toastView.font!)
+        let toastWidth = size.width - 50
+        let oneLineToastWidth = calculatedTextWidth + extraWidthToAdd
+        let maxTextWidth = toastWidth - extraWidthToRemove
+
+        let toastHeight = message.height(withConstrainedWidth: maxTextWidth, font: toastView.font!) + extraHeightToAdd
+        
+        if calculatedTextWidth > maxTextWidth {
+            toastView.frame = CGRect(x: size.width / 2 - toastWidth / 2, y: size.height - 100, width: toastWidth, height: toastHeight)
+        } else {
+            toastView.frame = CGRect(x: size.width / 2 - oneLineToastWidth / 2, y: size.height - 100, width: oneLineToastWidth, height: toastHeight)
+        }
 
         self.view.addSubview(toastView)
         UIView.animate(withDuration: 2.0, delay: 3.5, options: .curveEaseOut, animations: {
@@ -143,6 +155,20 @@ extension UINavigationController {
         }, completion: {(isCompleted) in
             toastView.removeFromSuperview()
         })
+    }
+    
+    func showDefaultAlert(message: String) {
+        let action = UIAlertAction(title: "ok_message".localOther, style: .default, handler: nil)
+        showAlert(title: nil, message: message, actions: action)
+    }
+    
+    func showAlert(title: String?, message: String, actions: UIAlertAction...) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        for (_, value) in actions.enumerated() {
+            alertController.addAction(value)
+        }
+        self.present(alertController, animated: true)
     }
 }
 
@@ -158,3 +184,46 @@ extension UITextView {
     }
 }
 
+extension UITextField {
+    func underlined(){
+        self.borderStyle = .none
+        let border = CALayer()
+        let width = CGFloat(1.0)
+        border.borderColor = UIColor.rgb(red: 1, green: 188, blue: 213).cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - width,   width:  self.frame.size.width, height: width)
+        
+        border.borderWidth = width
+        self.layer.addSublayer(border)
+        self.layer.masksToBounds = true
+    }
+}
+
+extension UITextField {
+    func getClearButton(with image : UIImage) -> UIButton {
+        let clearButton = UIButton(type: .custom)
+        clearButton.setImage(image, for: .normal)
+        clearButton.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
+        clearButton.contentMode = .scaleAspectFit
+        clearButton.addTarget(self, action: #selector(UITextField.clear(_:)), for: .touchUpInside)
+        return clearButton
+    }
+    
+    @objc func clear(_ sender : AnyObject) {
+        self.text = ""
+        sendActions(for: .editingChanged)
+    }
+}
+
+extension NSMutableAttributedString {
+    func setAsLink(textToFind:String, linkURL:String) -> Bool {
+        let foundRange = self.mutableString.range(of: textToFind)
+        if foundRange.location != NSNotFound {
+            let linkAttributes = [
+                NSAttributedStringKey.link : linkURL
+                ] as [NSAttributedStringKey : Any]
+            self.setAttributes(linkAttributes, range: foundRange)
+            return true
+        }
+        return false
+    }
+}

@@ -112,7 +112,6 @@ class SearchController: UITableViewController, UISearchResultsUpdating, UIGestur
         if isFiltering() {
             return filteredGuidance.count
         }
-        
         return guidance.count
     }
     
@@ -124,8 +123,8 @@ class SearchController: UITableViewController, UISearchResultsUpdating, UIGestur
         let transition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionPush;
-        transition.subtype = kCATransitionFromBottom;
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromBottom
         navigationController?.view.layer.add(transition, forKey:kCATransition)
         
         if callbackAfterDismiss {

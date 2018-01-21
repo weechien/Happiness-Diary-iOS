@@ -21,14 +21,6 @@ class GuidanceDropDownLauncher: BaseLauncher {
     var popupItem: DropdownPopupModel?
     var user: User?
     
-    lazy var defaultItems: [DropdownPopupModel] = {
-        let share = DropdownPopupModel(name: .Share, imageName: "ic_share")
-        let copy = DropdownPopupModel(name: .Copy, imageName: "ic_copy")
-        let bookmark = DropdownPopupModel(name: .Bookmark, imageName: "ic_guidance_bookmark")
-        
-        return [share, copy, bookmark]
-    }()
-    
     lazy var shareItems: [DropdownPopupModel] = {
         let shareImage = DropdownPopupModel(name: .ShareImage, imageName: "ic_image")
         let shareGuidance = DropdownPopupModel(name: .ShareGuidance, imageName: "ic_guidance")
@@ -43,23 +35,26 @@ class GuidanceDropDownLauncher: BaseLauncher {
     }()
     
     override func showItems() {
-        if let mCell = cell?.dateView.text {
-            if bookmarkList.contains("\(getGuidanceType()) \(getLanguage()) \(mCell)") {
-                defaultItems[2] = DropdownPopupModel(name: .Unbookmark, imageName: "ic_guidance_bookmark")
-            } else {
-                defaultItems[2] = DropdownPopupModel(name: .Bookmark, imageName: "ic_guidance_bookmark")
-            }
-        }
-
-        popupItems = defaultItems
+        popupItems = setupDefaultWithBookmark()
         collectionView.reloadData()
         super.showItems()
     }
     
-    func passArray(array: inout Array<String>) {
-        bookmarkList = array
+    private func setupDefaultWithBookmark() ->[DropdownPopupModel] {
+        let share = DropdownPopupModel(name: .Share, imageName: "ic_share")
+        let copy = DropdownPopupModel(name: .Copy, imageName: "ic_copy")
+        var bookmark = DropdownPopupModel(name: .Bookmark, imageName: "ic_guidance_bookmark")
+        
+        if let mCell = cell?.dateView.text, !LoginController.isGuest() {
+            if bookmarkList.contains("\(getGuidanceType()) \(getLanguage()) \(mCell)") {
+                bookmark = DropdownPopupModel(name: .Unbookmark, imageName: "ic_guidance_bookmark")
+            } else {
+                bookmark = DropdownPopupModel(name: .Bookmark, imageName: "ic_guidance_bookmark")
+            }
+        }
+        return LoginController.isGuest() ? [share, copy] : [share, copy, bookmark]
     }
-    
+
     private func getGuidanceType() -> String {
         guard let guidanceType = guidanceType else { return "" }
         

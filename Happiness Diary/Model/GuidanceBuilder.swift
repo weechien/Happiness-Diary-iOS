@@ -48,6 +48,7 @@ class GuidanceBuilder: NSObject {
             mGuidance.date = value
             
             getFirebaseImage(guidance: mGuidance, key: key, path: path, lang: lang)
+            setCardBackgroundColor(guidance: mGuidance, key: key)
             
             mGuidance.content = content?[key]
             mGuidance.source = (source as! Array<String>)[key]
@@ -94,6 +95,47 @@ class GuidanceBuilder: NSObject {
             
         } else if (335 <= key && key <= 365) { // Dec
             guidance.image = "\(path + lang)/Dec/\(key - 335).webp"
+        }
+    }
+    
+    private func setCardBackgroundColor(guidance: GuidanceModel, key: Int) {
+        let isColorEnabled = SettingsViewController.isCardColorEnabled()
+        
+        if (0 <= key && key <= 30) { // Jan
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 240, green: 248, blue: 255) : .white
+            
+        } else if (31 <= key && key <= 59) { // Feb
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 255, green: 233, blue: 233) : .white
+
+        } else if (60 <= key && key <= 90) { // Mar
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 238, green: 238, blue: 238) : .white
+
+        } else if (91 <= key && key <= 120) { // Apr
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 222, green: 255, blue: 219) : .white
+
+        } else if (121 <= key && key <= 151) { // May
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 245, green: 245, blue: 220) : .white
+
+        } else if (152 <= key && key <= 181) { // Jun
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 243, green: 225, blue: 203) : .white
+
+        } else if (182 <= key && key <= 212) { // Jul
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 228, green: 238, blue: 245) : .white
+
+        } else if (213 <= key && key <= 243) { // Aug
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 215, green: 187, blue: 187) : .white
+
+        } else if (244 <= key && key <= 273) { // Sep
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 236, green: 218, blue: 236) : .white
+
+        } else if (274 <= key && key <= 304) { // Oct
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 250, green: 235, blue: 215) : .white
+
+        } else if (305 <= key && key <= 334) { // Nov
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 253, green: 247, blue: 231) : .white
+
+        } else if (335 <= key && key <= 365) { // Dec
+            guidance.backgroundColor = isColorEnabled ? .rgb(red: 237, green: 221, blue: 221) : .white
         }
     }
     

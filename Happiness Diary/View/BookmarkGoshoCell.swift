@@ -1,7 +1,6 @@
 import UIKit
 
-class BookmarkGoshoCell: MainGuidanceCell {
-    weak var delegate: BookmarkCellDelegate?
+class BookmarkGoshoCell: BookmarkBaseCell {
     
     override var guidanceType: GuidanceHelper? {
         get {
@@ -14,12 +13,6 @@ class BookmarkGoshoCell: MainGuidanceCell {
             return delegate?.getGuidanceModel(guidanceType: guidanceType ?? .None)
         }
         set {}
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let observedObject = object as? UICollectionView, observedObject == collectionView {
-            collectionView.removeObserver(self, forKeyPath: "contentSize")
-        }
     }
 }
 

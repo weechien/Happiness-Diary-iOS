@@ -40,14 +40,16 @@ class MainGuidanceCell: BaseCell, UICollectionViewDataSource, UICollectionViewDe
     // Scroll to the current day
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let observedObject = object as? UICollectionView, observedObject == collectionView {
-            let date = Date()
-            let cal = Calendar.current
-            let day = cal.ordinality(of: .day, in: .year, for: date)
-            let indexPath = IndexPath(item: day! - 1, section: 0)
-            
-            collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+            collectionView.scrollToItem(at: MainGuidanceCell.getIndexPathForToday(), at: .centeredVertically, animated: false)
             collectionView.removeObserver(self, forKeyPath: "contentSize")
         }
+    }
+    
+    static func getIndexPathForToday() -> IndexPath {
+        let date = Date()
+        let cal = Calendar.current
+        let day = cal.ordinality(of: .day, in: .year, for: date)
+        return IndexPath(item: day! - 1, section: 0)
     }
     
     func setupCollectionView() {
@@ -75,7 +77,11 @@ class MainGuidanceCell: BaseCell, UICollectionViewDataSource, UICollectionViewDe
     
     // Return the total number of items in the collection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return guidance!.count
+        if let guidance = guidance?.count {
+            return guidance
+        } else {
+            return 0
+        }
     }
     
     // Return a collection cell object for the index path
@@ -177,12 +183,11 @@ class MainGuidanceCell: BaseCell, UICollectionViewDataSource, UICollectionViewDe
             mController = controller.dropDownCommunicator
         }
 
-        if guidanceType == .Encouragement || guidanceType == .BookmarkEncouragement {
+        if !LoginController.isGuest() && (guidanceType == .Encouragement || guidanceType == .BookmarkEncouragement) {
             dropDown.bookmarkList = Language.sharedInstance.getLang() == SystemLanguage.Eng.rawValue ? mController!.bookmarkDEeng! : mController!.bookmarkDEchi!
-        } else if guidanceType == .Gosho || guidanceType == .BookmarkGosho {
+        } else if !LoginController.isGuest() && (guidanceType == .Gosho || guidanceType == .BookmarkGosho) {
             dropDown.bookmarkList = Language.sharedInstance.getLang() == SystemLanguage.Eng.rawValue ? mController!.bookmarkDGeng! : mController!.bookmarkDGchi!
         }
-
         dropDown.showItems()
     }
 }

@@ -10,7 +10,13 @@ class BaseController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let menuBarHeight: CGFloat = 50
     let statusBarHeight:CGFloat = 20
     var initialHeight: CGFloat?
-    lazy var navTitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+    var isCardColorEnabled = SettingsViewController.isCardColorEnabled()
+    lazy var navTitleButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        button.addTarget(self, action: #selector(handleNavigationTitleClick), for: .touchUpInside)
+        return button
+    }()
     
     let encouragementCellId = "encouragementCellId"
     let goshoCellId = "goshoCellId"
@@ -31,33 +37,32 @@ class BaseController: UICollectionViewController, UICollectionViewDelegateFlowLa
         super.viewDidLoad()
         
         initialHeight = view.frame.height
-        
         setupCollectionView()
-        setupNavigationBar()
         setupMenuBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
-            if user == nil {
-                let loginController = LoginController()
-                self.present(loginController, animated: true, completion: nil)
-            }
-        })
+        setupNavigationBar()
+        checkIsCardColorEnabled()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        Auth.auth().removeStateDidChangeListener(handle!)
+        if let handle = handle {
+            Auth.auth().removeStateDidChangeListener(handle)
+        }
     }
+    
+    func checkIsCardColorEnabled() {}
     
     func reloadBookmarkCollectionView(guidanceType: GuidanceHelper) {}
     
+    @objc func handleNavigationTitleClick() {}
+    
     // Setup the collection view
-    private func setupCollectionView() {
+    func setupCollectionView() {
         if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.minimumLineSpacing = 0
             flowLayout.scrollDirection = .horizontal
@@ -78,7 +83,7 @@ class BaseController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     // Setup the menu bar
-    private func setupMenuBar() {
+    func setupMenuBar() {
         let coverView = UIView()
         coverView.backgroundColor = UIColor.rgb(red: 77, green: 208, blue: 225)
         view.addSubview(coverView)
@@ -96,13 +101,13 @@ class BaseController: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
     }
     
-    // Setup the navigation bar
     func setupNavigationBar() {
-        navTitleLabel.textColor = UIColor.white
+        navTitleButton.setTitleColor(.white, for: .normal)
         
-        navTitleLabel.font = UIFont.systemFont(ofSize: 20)
-        navTitleLabel.text = "  " + "guidance".localOther
-        navigationItem.titleView = navTitleLabel
+        navTitleButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        navTitleButton.contentHorizontalAlignment = .left
+        navTitleButton.setTitle("  " + "guidance".localOther, for: .normal)
+        navigationItem.titleView = navTitleButton
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -110,10 +115,6 @@ class BaseController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if view.frame.height > initialHeight! - menuBarHeight {
-            return CGSize(width: view.frame.width, height: view.frame.height - menuBarHeight - statusBarHeight)
-        }
-        
         return CGSize(width: view.frame.width, height: view.frame.height - menuBarHeight)
     }
     
