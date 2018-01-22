@@ -18,14 +18,20 @@ class Localizator {
     }
     
     func getLocalizableWithLanguage(language: String) -> NSDictionary? {
-        if let mPath = Bundle.main.path(forResource: language, ofType: "lproj") {
-            if let bundle = Bundle(path: mPath) {
-                if let path = bundle.path(forResource:"Localizable", ofType: "plist") {
-                    return NSDictionary(contentsOfFile: path)
-                }
+        if let bundle = getBundleWithLanguage(language: language) {
+            if let path = bundle.path(forResource:"Localizable", ofType: "plist") {
+                return NSDictionary(contentsOfFile: path)
             }
         }
-        
+        return nil
+    }
+    
+    func getBundleWithLanguage(language: String) -> Bundle? {
+        if let mPath = Bundle.main.path(forResource: language, ofType: "lproj") {
+            if let bundle = Bundle(path: mPath) {
+                return bundle
+            }
+        }
         return nil
     }
 }

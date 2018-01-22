@@ -21,6 +21,8 @@ enum SettingPopupName: String {
     case About = "about"
     case English = "english_untranslatable"
     case Chinese = "chinese_untranslatable"
+    case Logout = "logout"
+    case SignIn = "sign_in_sign_up"
 }
 
 // Names of dropdown popup items
@@ -50,4 +52,11 @@ enum DropDownMessage {
     case ToastBookmarked
     case ToastUnbookmarked
     case PresentView
+}
+
+// Firebase providers
+enum FirebaseProvider: String {
+    case Google = "google.com"
+    case Facebook = "facebook.com"
+    case Password = "password"
 }

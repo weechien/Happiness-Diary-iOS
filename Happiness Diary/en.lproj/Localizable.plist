@@ -1530,6 +1530,112 @@
 		<string>bookmark removed</string>
 		<key>unknown_error</key>
 		<string>Unknown error</string>
+		<key>favorite_encouragement</key>
+		<string>Your favourite Encouragement will appear here</string>
+		<key>favorite_gosho</key>
+		<string>Your favourite Gosho will appear here</string>
+		<key>logout</key>
+		<string>Logout</string>
+		<key>sign_in_sign_up</key>
+		<string>Sign in / Sign up</string>
+		<key>continue_as_guest</key>
+		<string>Continue as a guest</string>
+		<key>email</key>
+		<string>Email</string>
+		<key>enter_your_email</key>
+		<string>Enter your email</string>
+		<key>name</key>
+		<string>Name</string>
+		<key>first_and_last_name</key>
+		<string>First &amp; last name</string>
+		<key>password</key>
+		<string>Password</string>
+		<key>choose_password</key>
+		<string>Choose password</string>
+		<key>trouble_signing_in</key>
+		<string>Trouble signing in?</string>
+		<key>enter_password</key>
+		<string>Enter your password</string>
+		<key>sign_up_terms</key>
+		<string>By tapping Save you are indicating that you agree to the Terms of Service and the Privacy Policy.</string>
+		<key>terms_of_service</key>
+		<string>Terms of Service</string>
+		<key>privacy_policy</key>
+		<string>Privacy Policy</string>
+		<key>email_recovery_info</key>
+		<string>Get instructions sent to this email that explain how to reset your password.</string>
+		<key>back</key>
+		<string>Back</string>
+		<key>password_verification_title</key>
+		<string>You already have an account</string>
+		<key>password_verification_body1</key>
+		<string>You&apos;ve already used</string>
+		<key>password_verification_body2</key>
+		<string>to sign in. Enter your password for that account.</string>
+		<key>didnt_get_email</key>
+		<string>Didn&apos;t get verification email?</string>
+		<key>welcome</key>
+		<string>Welcome</string>
+		<key>sign_in_with_email</key>
+		<string>Sign in with email</string>
+		<key>create_account</key>
+		<string>Create account</string>
+		<key>next</key>
+		<string>Next</string>
+		<key>save</key>
+		<string>Save</string>
+		<key>sign_in_title</key>
+		<string>Sign in</string>
+		<key>recover_password</key>
+		<string>Recover password</string>
+		<key>send</key>
+		<string>Send</string>
+		<key>verify_email</key>
+		<string>Verify email</string>
+		<key>email_not_verified</key>
+		<string>Please verify your email and sign in</string>
+		<key>complete</key>
+		<string>Complete</string>
+		<key>resend_verification_email</key>
+		<string>Resend verification email?</string>
+		<key>ok_message</key>
+		<string>OK</string>
+		<key>resend_verification_failed</key>
+		<string>Sending of verification email has failed. Please try again.</string>
+		<key>resend_verification_succeeded</key>
+		<string>Verification email has been sent to</string>
+		<key>app_version</key>
+		<string>App version</string>
+		<key>legal_information</key>
+		<string>Legal information</string>
+		<key>contact_us</key>
+		<string>Contact us</string>
+		<key>credits</key>
+		<string>Credits</string>
+		<key>open_source_licenses</key>
+		<string>Open source licenses</string>
+		<key>general</key>
+		<string>General</string>
+		<key>guidance_notification</key>
+		<string>Guidance notification</string>
+		<key>guidance_card_color</key>
+		<string>Guidance card color</string>
+		<key>guidance_notification_summary</key>
+		<string>Receive daily guidance at</string>
+		<key>done</key>
+		<string>Done</string>
+		<key>card_color_enabled</key>
+		<string>The background color is enabled</string>
+		<key>card_color_disabled</key>
+		<string>The background color is disabled</string>
+		<key>notification_disabled</key>
+		<string>Notification is not enabled</string>
+		<key>please_enable_notification</key>
+		<string>Please enable notifications in the settings</string>
+		<key>hello_happiness_diary</key>
+		<string>Hello! Happiness Diary</string>
+		<key>could_not_send_email</key>
+		<string>Your device could not send e-mail. Please check your e-mail configuration and try again.</string>
 	</dict>
 </dict>
 </plist>

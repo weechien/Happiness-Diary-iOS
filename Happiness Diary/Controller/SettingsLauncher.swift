@@ -1,22 +1,15 @@
 import UIKit
+import Firebase
 
 protocol SettingsLauncherDelegate: class {
     func showControllerForSetting(_ setting: SettingPopupModel)
+    func presentLoginController()
     func refreshLanguage()
 }
 
 class SettingsLauncher: BaseLauncher {
     
     weak var delegate: SettingsLauncherDelegate?
-    
-    lazy var defaultSettings: [SettingPopupModel] = {
-        let language = SettingPopupModel(name: .Language, imageName: "ic_language")
-        let about = SettingPopupModel(name: .About, imageName: "ic_info")
-        let settings = SettingPopupModel(name: .Settings, imageName: "ic_settings")
-        let cancel = SettingPopupModel(name: .Cancel, imageName: "ic_cancel")
-        
-        return [language, about, settings, cancel]
-    }()
     
     lazy var languageSettings: [SettingPopupModel] = {
         let english = SettingPopupModel(name: .English, imageName: "ic_eng")
@@ -27,9 +20,19 @@ class SettingsLauncher: BaseLauncher {
     }()
     
     override func showItems() {
-        popupItems = defaultSettings
+        popupItems = setupDefaultSettings()
         collectionView.reloadData()
         super.showItems()
+    }
+    
+    private func setupDefaultSettings() -> [SettingPopupModel] {
+        let language = SettingPopupModel(name: .Language, imageName: "ic_language")
+        let about = SettingPopupModel(name: .About, imageName: "ic_info")
+        let settings = SettingPopupModel(name: .Settings, imageName: "ic_settings")
+        let logout = LoginController.isGuest() ? SettingPopupModel(name: .SignIn, imageName: "ic_logout") : SettingPopupModel(name: .Logout, imageName: "ic_logout")
+        let cancel = SettingPopupModel(name: .Cancel, imageName: "ic_cancel")
+        
+        return [language, about, settings, logout, cancel]
     }
     
     override func dismissCollectionView(_ item: AnyObject?) {
@@ -53,8 +56,23 @@ class SettingsLauncher: BaseLauncher {
             case .English: changeLanguage(language: .English)
             case .Chinese: changeLanguage(language: .Chinese)
             case .About: delegate?.showControllerForSetting(setting)
+            case .Logout: signOutOfFirebase()
+            case .SignIn: signOutOfFirebase()
             case .Cancel: break
             }
+        }
+    }
+    
+    private func signOutOfFirebase() {
+        do {
+            if Auth.auth().currentUser != nil {
+                try Auth.auth().signOut()
+            } else {
+                UserDefaults.standard.set(false, forKey: LoginController.GUEST_LOGIN)
+                delegate?.presentLoginController()
+            }
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
         }
     }
     
@@ -70,7 +88,6 @@ class SettingsLauncher: BaseLauncher {
         if language == systemlanguage {
             return
         }
-        
         Language.sharedInstance.setLang(language: language)
         delegate?.refreshLanguage()
     }

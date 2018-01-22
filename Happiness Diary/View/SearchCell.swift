@@ -14,7 +14,6 @@ class SearchCell: UITableViewCell {
     let dateView: UILabel = {
         let view = UILabel()
         view.font = UIFont(name: "BeyondTheMountains", size: 15)
-
         return view
     }()
     
@@ -72,7 +71,6 @@ class SearchCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupViews()
     }
 }

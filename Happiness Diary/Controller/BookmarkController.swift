@@ -18,11 +18,21 @@ class BookmarkController: BaseController, BookmarkCellDelegate {
         return mb
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+            if user == nil {
+                let loginController = LoginController()
+                self.present(loginController, animated: true, completion: nil)
+            }
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackButton()
         changeMenuBarColor()
-        navTitleLabel.textColor = BookmarkController.darkColor
     }
     
     func getGuidanceModel(guidanceType: GuidanceHelper) -> [GuidanceModel] {
@@ -35,6 +45,23 @@ class BookmarkController: BaseController, BookmarkCellDelegate {
         return GuidanceBuilder.sharedInstance.buildGuidanceBookmark(guidanceType: guidanceType, bookmarkedDates: bookmarkDates)
     }
     
+    override func checkIsCardColorEnabled() {
+        super.checkIsCardColorEnabled()
+        
+        if isCardColorEnabled != SettingsViewController.isCardColorEnabled() {
+            isCardColorEnabled = SettingsViewController.isCardColorEnabled()
+            encouragementCell?.collectionView.reloadData()
+            goshoCell?.collectionView.reloadData()
+        }
+    }
+    
+    override func setupNavigationBar() {
+        super.setupNavigationBar()
+        
+        navTitleButton.setTitleColor(BookmarkController.darkColor, for: .normal)
+        navTitleButton.setTitle("  " + "bookmark".localOther, for: .normal)
+    }
+    
     private func setupBackButton() {
         // Setup custom navigation behavior and back button layout
         let backButton = UIButton(type: .system)
@@ -45,17 +72,15 @@ class BookmarkController: BaseController, BookmarkCellDelegate {
     }
     
     @objc private func handleBackButton() {
-        changeStatusBarColor(color: UIColor.rgb(red: 33, green: 66, blue: 93))
+        changeStatusBarColor()
         changeNavBarColor(color: UIColor.rgb(red: 45, green: 93, blue: 130))
         delegate?.reassignBookmarks(communicator: dropDownCommunicator)
         navigationController?.popViewController(animated: true)
     }
     
-    func changeStatusBarColor(color: UIColor) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+    func changeStatusBarColor(color: UIColor = AppDelegate.getDefaultStatusBarColor()) {
         UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            appDelegate.statusBarView.backgroundColor = color
+            AppDelegate.setStatusBarColor(color: color)
         }, completion: nil)
     }
     
@@ -77,9 +102,17 @@ class BookmarkController: BaseController, BookmarkCellDelegate {
         if guidanceType == .BookmarkEncouragement {
             let mCell = cell as! BookmarkEncouragementCell
             mCell.collectionView.reloadData()
+            let count = mCell.collectionView.numberOfItems(inSection: 0)
+            if count == 0 {
+                mCell.emptyViewContainer.isHidden = false
+            }
         } else if guidanceType == .BookmarkGosho {
             let mCell = cell as! BookmarkGoshoCell
             mCell.collectionView.reloadData()
+            let count = mCell.collectionView.numberOfItems(inSection: 0)
+            if count == 0 {
+                mCell.emptyViewContainer.isHidden = false
+            }
         }
     }
     
@@ -97,7 +130,6 @@ class BookmarkController: BaseController, BookmarkCellDelegate {
             goshoCell?.delegate = self
             goshoCell?.guidanceController = self
         }
-        
         return cell
     }
 }

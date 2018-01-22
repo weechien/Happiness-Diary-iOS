@@ -1,0 +1,6 @@
+framework module Pods_Happiness_Diary {
+  umbrella header "Pods-Happiness Diary-umbrella.h"
+
+  export *
+  module * { export * }
+}
