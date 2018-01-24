@@ -159,7 +159,7 @@ class LoginController: UIViewController, FUIAuthDelegate, VerifyEmailViewControl
         guestButton.widthAnchor.constraint(equalToConstant: 220).isActive = true
         guestButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
         guestButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        guestButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -65).isActive = true
+        guestButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.frame.height * -0.18).isActive = true
     }
     
     private func addSignInButton() {
