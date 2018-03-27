@@ -11,7 +11,7 @@ class AboutViewController: BaseTableViewController, MFMailComposeViewControllerD
             
             let tableView1 = TableViewWithHeader(
                 header: "app_version".localOther,
-                row: ["1.0.0"],
+                row: ["1.3.0"],
                 rowDescription: nil)
             
             let tableView2 = TableViewWithHeader(
