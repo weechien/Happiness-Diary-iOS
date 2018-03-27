@@ -177,7 +177,7 @@ class GuidanceDropDownLauncher: BaseLauncher {
         let title = guidanceType == .Encouragement ? "daily_encouragement".localOther : "daily_gosho".localOther
         
         if let cellDate = cell?.dateView.text, let cellContent = cell?.contentsView.text, let cellSource = cell?.sourceView.text {
-            return ("\(title)", "\(cellDate)", "\(title) \(getSunriseEmoji())\n\(cellDate)\n\n\(cellContent)\n\n\(cellSource)\n\n\("share_promotion1".localOther) \u{1F54A}: \("share_promotion2".localOther)")
+            return ("\(title)", "\(cellDate)", "\(title) \(getSunriseEmoji())\n\(cellDate)\n\n\(cellContent)\n\n\(cellSource)\n\n\("share_promotion1".localOther) \u{1F54A}")
         } else {
             return ("", "", "")
         }

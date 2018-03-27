@@ -67,7 +67,7 @@ class GuidanceBuilder: NSObject {
             guidance.image = "\(path + lang)/Feb/\(key - 31).webp"
             
         } else if (60 <= key && key <= 90) { // Mar
-            guidance.image = "\(path + lang)/Mar/\(key - 60)).webp"
+            guidance.image = "\(path + lang)/Mar/\(key - 60).webp"
             
         } else if (91 <= key && key <= 120) { // Apr
             guidance.image = "\(path + lang)/Apr/\(key - 91).webp"

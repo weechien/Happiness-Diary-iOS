@@ -21,6 +21,7 @@ class SubGuidanceCell: BaseCell {
                 let content = guidance?.content,
                 let source = guidance?.source,
                 let color = guidance?.backgroundColor {
+                print(image)
                 
                 // Get a reference to the storage service using the default Firebase App
                 let ref = Storage.storage().reference().child(image)
@@ -156,12 +157,19 @@ class SubGuidanceCell: BaseCell {
         imageView.updateConstraints()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        print("sourceView height: \(sourceView.frame.height)")
+        print("sourceView width: \(sourceView.frame.width)")
+        print("frame.width: \(frame.width)")
+    }
+    
     private func updateSourceViewHeight(source: String) {
         let sourceTextHeight = source.height(withConstrainedWidth: frame.width - 48 - 16, font: sourceView.font!)
-
+        
         if sourceTextHeight > (sourceViewHeightConstraint?.constant)! {
             sourceViewHeightConstraint?.isActive = false
-            sourceViewHeightConstraint?.constant = sourceTextHeight
+            sourceViewHeightConstraint?.constant = sourceTextHeight + 6
             sourceViewHeightConstraint?.isActive = true
         } else {
             sourceViewHeightConstraint?.isActive = false
